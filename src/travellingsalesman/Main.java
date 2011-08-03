@@ -4,14 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFrame;
 
 public class Main {
 	private static JCanvas canvas;
-	private static List<Incubator> incubators = new ArrayList<Incubator>();
+	private static CultureRoom cultureRoom = new CultureRoom();
 
 	public static void main(String[] args) {
 		IndividualFactory generator = new IndividualFactory();
@@ -29,27 +27,41 @@ public class Main {
 			incubator.setGenerationRenew(0);
 			incubator.setDoubleKept(true);
 
-			incubators.add(incubator);
+			cultureRoom.add(incubator);
 		}
 
 		initCanvas();
-		for (Incubator incubator : incubators) {
+		for (Incubator incubator : cultureRoom.getIncubators()) {
 			incubator.initGeneration();
 		}
 		while (true) {
-			for (Incubator incubator : incubators) {
+			for (Incubator incubator : cultureRoom.getIncubators()) {
 				incubator.generateNextGeneration();
 				incubator.makeSelection();
 			}
-			displayResult();
+			
+			int incubatorIndex = getBestIncubator();
+			
+			displayResult(incubatorIndex);
 		}
 	}
 
-	public static void displayResult() {
+	private static void displayResult(int incubatorIndex) {
+		Individual bestIndividual2 = cultureRoom.getIncubator(incubatorIndex).getBestIndividual();
+		if (isBetterPath(bestIndividual2.getPath())) {
+			canvas.setPath(bestIndividual2.getPath());
+			System.out.println(String.format("(%d) %7d", incubatorIndex,
+					cultureRoom.getIncubator(0).getGenerationCounter())
+					+ " : "
+					+ bestIndividual2);
+		}
+	}
+
+	private static int getBestIncubator() {
 		Individual bestIndividual = null;
 		int incubatorIndex = -1;
-		for (int i = 0; i < incubators.size(); i++) {
-			Incubator incubator = incubators.get(i);
+		for (int i = 0; i < cultureRoom.getIncubatorCounter(); i++) {
+			Incubator incubator = cultureRoom.getIncubator(i);
 			Individual individual = incubator.getBestIndividual();
 			if (bestIndividual == null
 					|| Util.getPathLength(bestIndividual.getPath()) > Util
@@ -58,13 +70,7 @@ public class Main {
 				incubatorIndex = i;
 			}
 		}
-		if (isBetterPath(bestIndividual.getPath())) {
-			canvas.setPath(bestIndividual.getPath());
-			System.out.println(String.format("(%d) %7d", incubatorIndex,
-					incubators.get(0).getGenerationCounter())
-					+ " : "
-					+ bestIndividual);
-		}
+		return incubatorIndex;
 	}
 
 	private static boolean isBetterPath(Location[] path) {
