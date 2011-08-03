@@ -20,10 +20,13 @@ public class Main {
 		}
 
 		generator.setMutationRate(0.01);
-		for (int i = 0; i < 5; i++) {
-			Incubator incubator = new Incubator();
+		for (int i = 0; i < 10; i++) {
+			Incubator incubator = new Incubator("" + i);
 			incubator.setGenerationSize(10);
 			incubator.setDoubleKept(true);
+			incubator.addIndividual(generator.createRandomIndividual());
+			incubator.addIndividual(generator.createRandomIndividual());
+			incubator.addIndividual(generator.createRandomIndividual());
 			incubator.addIndividual(generator.createRandomIndividual());
 			incubator.addIndividual(generator.createRandomIndividual());
 
@@ -33,23 +36,40 @@ public class Main {
 		initCanvas();
 		while (true) {
 			for (Incubator incubator : cultureRoom.getIncubators()) {
+				if (incubator.getStationaryTime() > 1000
+						&& incubator.getGenerationCounter() > 10000) {
+					Individual best = incubator.getBestIndividual();
+					incubator.clean();
+					incubator.addIndividual(best);
+					for (Incubator source : cultureRoom.getIncubators()) {
+						incubator.addIndividual(source.getBestIndividual());
+					}
+				}
 				incubator.crossPopulation();
 				incubator.makeSelection();
 			}
 
-			Incubator incubator = cultureRoom.getBestIncubator();
+			Individual best = cultureRoom.getBestIncubator()
+					.getBestIndividual();
 
-			displayResult(incubator);
+			displayResult(best);
 		}
 	}
 
-	private static void displayResult(Incubator incubator) {
-		Individual bestIndividual2 = incubator.getBestIndividual();
-		if (isBetterPath(bestIndividual2.getPath())) {
-			canvas.setPath(bestIndividual2.getPath());
-			System.out.println(String.format("%7d", cultureRoom.getIncubator(0)
-					.getGenerationCounter())
-					+ " : " + bestIndividual2);
+	private static void displayResult(Individual best) {
+		if (isBetterPath(best.getPath())) {
+			canvas.setPath(best.getPath());
+			String terminal = "";
+			for (Incubator incubator : cultureRoom.getIncubators()) {
+				Individual best2 = incubator.getBestIndividual();
+				String str = incubator + " = "
+						+ ((double) Math.round(best2.getLength() * 100) / 100);
+				if (best == best2) {
+					str = "[" + str + "]";
+				}
+				terminal += str + " ";
+			}
+			System.out.println(terminal);
 		}
 	}
 

@@ -10,6 +10,11 @@ public class Incubator {
 	private int generationSize = 10;
 	private int stationaryTime = 0;
 	private boolean isDoubleKept = true;
+	private String name;
+	
+	public Incubator(String name) {
+		setName(name);
+	}
 
 	public Individual getBestIndividual() {
 		return population.isEmpty() ? null : population.get(0);
@@ -49,6 +54,9 @@ public class Incubator {
 		if (newResult != previousResult) {
 			stationaryTime = 0;
 		}
+		else {
+			stationaryTime ++;
+		}
 	}
 
 	public int getStationaryTime() {
@@ -87,5 +95,24 @@ public class Incubator {
 
 	public void setDoubleKept(boolean isDoubleKept) {
 		this.isDoubleKept = isDoubleKept;
+	}
+
+	public void clean() {
+		population.clear();
+		stationaryTime = 0;
+		generationCounter = 0;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 }
