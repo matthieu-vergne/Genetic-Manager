@@ -22,9 +22,7 @@ public class Main {
 		generator.setMutationRate(0.001);
 		for (int i = 0; i < 2; i++) {
 			Incubator incubator = new Incubator();
-			incubator.setGenerator(generator);
 			incubator.setGenerationSize(10);
-			incubator.setGenerationRenew(0);
 			incubator.setDoubleKept(true);
 
 			cultureRoom.add(incubator);
@@ -32,11 +30,12 @@ public class Main {
 
 		initCanvas();
 		for (Incubator incubator : cultureRoom.getIncubators()) {
-			incubator.initGeneration();
+			incubator.addIndividual(generator.createRandomIndividual());
+			incubator.addIndividual(generator.createRandomIndividual());
 		}
 		while (true) {
 			for (Incubator incubator : cultureRoom.getIncubators()) {
-				incubator.generateNextGeneration();
+				incubator.crossPopulation();
 				incubator.makeSelection();
 			}
 			

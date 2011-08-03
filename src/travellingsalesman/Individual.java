@@ -5,15 +5,15 @@ import java.util.List;
 
 public class Individual {
 	private final List<Integer> genes;
-	private final IndividualFactory generator;
+	private final IndividualFactory factory;
 
 	public Individual(IndividualFactory generator, Integer... genes) {
-		this.generator = generator;
+		this.factory = generator;
 		this.genes = Arrays.asList(genes);
 	}
 
 	public Location[] getPath() {
-		return generator.getPathFor(genes.toArray(new Integer[0]));
+		return factory.getPathFor(genes.toArray(new Integer[0]));
 	}
 
 	public Integer[] getGenes() {
@@ -28,5 +28,9 @@ public class Individual {
 			pathString += location;
 		}
 		return Util.getPathLength(getPath()) + "=[" + pathString + "]";
+	}
+	
+	public Individual reproduceWith(Individual individual) {
+		return factory.createIndividualFrom(this, individual);
 	}
 }
