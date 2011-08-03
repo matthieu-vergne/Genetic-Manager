@@ -6,17 +6,17 @@ import java.util.Collections;
 
 public class Incubator {
 	private final ArrayList<Individual> population = new ArrayList<Individual>();
-	private IndividualGenerator generator;
+	private IndividualFactory generator;
 	private long generationCounter = 0;
 	private int generationSize = 10;
 	private int generationRenew = 0;
 	private boolean isDoubleKept = true;
 
-	public IndividualGenerator getGenerator() {
+	public IndividualFactory getGenerator() {
 		return generator;
 	}
 
-	public void setGenerator(IndividualGenerator generator) {
+	public void setGenerator(IndividualFactory generator) {
 		this.generator = generator;
 	}
 
@@ -30,6 +30,10 @@ public class Incubator {
 		}
 		generationCounter = 0;
 	}
+	
+	public void addIndividual(Individual individual){
+		population.add(individual);
+	}
 
 	public void generateNextGeneration() {
 		// renewing
@@ -41,8 +45,6 @@ public class Incubator {
 		ArrayList<Individual> availableIndividuals = new ArrayList<Individual>(
 				population);
 		while (availableIndividuals.size() > 1) {
-//			Individual i1 = availableIndividuals.remove(0);
-//			Individual i2 = availableIndividuals.remove(0);
 			Individual i1 = availableIndividuals.remove(Util.randomIndex(availableIndividuals.size()));
 			Individual i2 = availableIndividuals.remove(Util.randomIndex(availableIndividuals.size()));
 			population.add(generator.createIndividualFrom(i1, i2));

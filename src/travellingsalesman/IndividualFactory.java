@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class IndividualGenerator {
+public class IndividualFactory {
 	private List<Location> locations = new ArrayList<Location>();
 	private double mutationRate = 0.01;
 

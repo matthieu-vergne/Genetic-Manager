@@ -11,7 +11,7 @@ public class IndividualGeneratorTest {
 
 	@Test
 	public void testLocation() {
-		IndividualGenerator generator = new IndividualGenerator();
+		IndividualFactory generator = new IndividualFactory();
 		assertEquals(0, generator.getLocations().length);
 
 		Location l0 = new Location(0, 0);
@@ -36,7 +36,7 @@ public class IndividualGeneratorTest {
 		Location l0 = new Location(0, 0);
 		Location l1 = new Location(0, 1);
 		Location l2 = new Location(1, 0);
-		IndividualGenerator generator = new IndividualGenerator();
+		IndividualFactory generator = new IndividualFactory();
 		generator.addLocation(l0);
 		generator.addLocation(l1);
 		generator.addLocation(l2);
@@ -77,7 +77,7 @@ public class IndividualGeneratorTest {
 
 	@Test
 	public void testRandomIndividual() {
-		IndividualGenerator generator = new IndividualGenerator();
+		IndividualFactory generator = new IndividualFactory();
 		generator.addLocation(new Location(0, 0));
 		generator.addLocation(new Location(0, 1));
 		generator.addLocation(new Location(1, 0));

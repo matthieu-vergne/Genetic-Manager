@@ -11,13 +11,13 @@ public class IncubatorTest {
 		Incubator incubator = new Incubator();
 
 		{
-			IndividualGenerator generator = new IndividualGenerator();
+			IndividualFactory generator = new IndividualFactory();
 			incubator.setGenerator(generator);
 			assertEquals(generator, incubator.getGenerator());
 		}
 
 		{
-			IndividualGenerator generator = new IndividualGenerator();
+			IndividualFactory generator = new IndividualFactory();
 			incubator.setGenerator(generator);
 			assertEquals(generator, incubator.getGenerator());
 		}

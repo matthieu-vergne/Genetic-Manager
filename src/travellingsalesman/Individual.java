@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Individual {
 	private final List<Integer> genes;
-	private final IndividualGenerator generator;
+	private final IndividualFactory generator;
 
-	public Individual(IndividualGenerator generator, Integer... genes) {
+	public Individual(IndividualFactory generator, Integer... genes) {
 		this.generator = generator;
 		this.genes = Arrays.asList(genes);
 	}

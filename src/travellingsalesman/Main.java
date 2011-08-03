@@ -10,11 +10,11 @@ import java.util.List;
 import javax.swing.JFrame;
 
 public class Main {
-	private static travellingsalesman.JCanvas canvas;
+	private static JCanvas canvas;
 	private static List<Incubator> incubators = new ArrayList<Incubator>();
 
 	public static void main(String[] args) {
-		IndividualGenerator generator = new IndividualGenerator();
+		IndividualFactory generator = new IndividualFactory();
 		for (int x = 0; x < 20; x++) {
 			for (int y = 0; y < 10; y++) {
 				generator.addLocation(new Location(x, y));
