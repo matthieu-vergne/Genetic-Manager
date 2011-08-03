@@ -19,57 +19,38 @@ public class Main {
 			}
 		}
 
-		generator.setMutationRate(0.001);
-		for (int i = 0; i < 2; i++) {
+		generator.setMutationRate(0.01);
+		for (int i = 0; i < 5; i++) {
 			Incubator incubator = new Incubator();
 			incubator.setGenerationSize(10);
 			incubator.setDoubleKept(true);
+			incubator.addIndividual(generator.createRandomIndividual());
+			incubator.addIndividual(generator.createRandomIndividual());
 
 			cultureRoom.add(incubator);
 		}
 
 		initCanvas();
-		for (Incubator incubator : cultureRoom.getIncubators()) {
-			incubator.addIndividual(generator.createRandomIndividual());
-			incubator.addIndividual(generator.createRandomIndividual());
-		}
 		while (true) {
 			for (Incubator incubator : cultureRoom.getIncubators()) {
 				incubator.crossPopulation();
 				incubator.makeSelection();
 			}
-			
-			int incubatorIndex = getBestIncubator();
-			
-			displayResult(incubatorIndex);
+
+			Incubator incubator = cultureRoom.getBestIncubator();
+
+			displayResult(incubator);
 		}
 	}
 
-	private static void displayResult(int incubatorIndex) {
-		Individual bestIndividual2 = cultureRoom.getIncubator(incubatorIndex).getBestIndividual();
+	private static void displayResult(Incubator incubator) {
+		Individual bestIndividual2 = incubator.getBestIndividual();
 		if (isBetterPath(bestIndividual2.getPath())) {
 			canvas.setPath(bestIndividual2.getPath());
-			System.out.println(String.format("(%d) %7d", incubatorIndex,
-					cultureRoom.getIncubator(0).getGenerationCounter())
-					+ " : "
-					+ bestIndividual2);
+			System.out.println(String.format("%7d", cultureRoom.getIncubator(0)
+					.getGenerationCounter())
+					+ " : " + bestIndividual2);
 		}
-	}
-
-	private static int getBestIncubator() {
-		Individual bestIndividual = null;
-		int incubatorIndex = -1;
-		for (int i = 0; i < cultureRoom.getIncubatorCounter(); i++) {
-			Incubator incubator = cultureRoom.getIncubator(i);
-			Individual individual = incubator.getBestIndividual();
-			if (bestIndividual == null
-					|| Util.getPathLength(bestIndividual.getPath()) > Util
-							.getPathLength(individual.getPath())) {
-				bestIndividual = individual;
-				incubatorIndex = i;
-			}
-		}
-		return incubatorIndex;
 	}
 
 	private static boolean isBetterPath(Location[] path) {

@@ -8,13 +8,14 @@ public class Incubator {
 	private final ArrayList<Individual> population = new ArrayList<Individual>();
 	private long generationCounter = 0;
 	private int generationSize = 10;
+	private int stationaryTime = 0;
 	private boolean isDoubleKept = true;
 
 	public Individual getBestIndividual() {
 		return population.isEmpty() ? null : population.get(0);
 	}
 
-	public void addIndividual(Individual individual){
+	public void addIndividual(Individual individual) {
 		population.add(individual);
 	}
 
@@ -22,8 +23,10 @@ public class Incubator {
 		ArrayList<Individual> availableIndividuals = new ArrayList<Individual>(
 				population);
 		while (availableIndividuals.size() > 1) {
-			Individual i1 = availableIndividuals.remove(Util.randomIndex(availableIndividuals.size()));
-			Individual i2 = availableIndividuals.remove(Util.randomIndex(availableIndividuals.size()));
+			Individual i1 = availableIndividuals.remove(Util
+					.randomIndex(availableIndividuals.size()));
+			Individual i2 = availableIndividuals.remove(Util
+					.randomIndex(availableIndividuals.size()));
 			population.add(i1.reproduceWith(i2));
 		}
 
@@ -35,16 +38,27 @@ public class Incubator {
 	}
 
 	public void makeSelection() {
-		if (!isDoubleKept() ) {
+		double previousResult = getBestIndividual().getLength();
+
+		if (!isDoubleKept()) {
 			removeDoubles();
 		}
 		reducePopulation();
+
+		double newResult = getBestIndividual().getLength();
+		if (newResult != previousResult) {
+			stationaryTime = 0;
+		}
+	}
+
+	public int getStationaryTime() {
+		return stationaryTime;
 	}
 
 	private void reducePopulation() {
 		Collections.sort(population, new IndividualComparator());
 		while (population.size() > getGenerationSize()) {
-			population.remove(0);
+			population.remove(getGenerationSize());
 		}
 	}
 

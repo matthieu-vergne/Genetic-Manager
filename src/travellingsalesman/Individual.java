@@ -16,6 +16,10 @@ public class Individual {
 		return factory.getPathFor(genes.toArray(new Integer[0]));
 	}
 
+	public double getLength() {
+		return Util.getPathLength(getPath());
+	}
+
 	public Integer[] getGenes() {
 		return genes.toArray(new Integer[0]);
 	}

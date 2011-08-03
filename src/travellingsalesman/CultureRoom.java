@@ -1,6 +1,8 @@
 package travellingsalesman;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class CultureRoom {
@@ -20,5 +22,17 @@ public class CultureRoom {
 	
 	public Incubator[] getIncubators(){
 		return incubators.toArray(new Incubator[0]);
+	}
+	
+	public Incubator getBestIncubator(){
+		List<Incubator> temp = new ArrayList<Incubator>(incubators);
+		Collections.sort(temp, new Comparator<Incubator>() {
+			IndividualComparator comparator = new IndividualComparator();
+			@Override
+			public int compare(Incubator o1, Incubator o2) {
+				return comparator.compare(o1.getBestIndividual(), o2.getBestIndividual());
+			}
+		});
+		return temp.get(0);
 	}
 }
