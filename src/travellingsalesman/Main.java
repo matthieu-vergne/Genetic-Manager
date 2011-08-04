@@ -12,7 +12,7 @@ import travellingsalesman.mutation.GeneMutation;
 public class Main {
 	private static JCanvas canvas;
 	private static CultureRoom cultureRoom = new CultureRoom();
-	private static GeneMutation fastMutation;
+	private static GeneMutation littleMutation;
 	private static GeneMutation bigMutation;
 
 	public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class Main {
 				factory.addLocation(new Location(x, y));
 			}
 		}
-		fastMutation = new GeneMutation() {
+		littleMutation = new GeneMutation() {
 
 			@Override
 			public double getRate() {
@@ -41,7 +41,7 @@ public class Main {
 
 			@Override
 			public double getRate() {
-				return 0.01;
+				return littleMutation.getRate();
 			}
 
 			@Override
@@ -76,10 +76,16 @@ public class Main {
 		initCanvas();
 		while (true) {
 			for (Incubator incubator : cultureRoom.getIncubators()) {
+				if (incubator.getStationaryTime() > 1000) {
+					incubator.setGenerationSize(100);
+				} else {
+					incubator.setGenerationSize(10);
+				}
+
 				if (incubator.getStationaryTime() > 100) {
 					factory.setMutation(bigMutation);
 				} else {
-					factory.setMutation(fastMutation);
+					factory.setMutation(littleMutation);
 				}
 				incubator.addIndividual(factory.createRandomIndividual());
 				incubator.crossPopulation();
@@ -104,6 +110,9 @@ public class Main {
 						+ ((double) Math.round(localBest.getLength() * 100) / 100);
 				if (localBest.getFactory().getMutation() == bigMutation) {
 					str = "!" + str;
+				}
+				if (incubator.getGenerationSize() > 10) {
+					str = "*" + str;
 				}
 				if (best == localBest) {
 					str = "[" + str + "]";
