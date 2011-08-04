@@ -1,4 +1,4 @@
-package sample.travellingsalesman;
+package sample.TSP;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -7,8 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import sample.travellingsalesman.IndividualFactory;
-import sample.travellingsalesman.Location;
+import sample.TSP.IndividualFactory;
+import sample.TSP.Location;
 
 public class IndividualFactoryTest {
 

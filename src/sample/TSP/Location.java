@@ -1,4 +1,4 @@
-package sample.travellingsalesman;
+package sample.TSP;
 
 public class Location {
 	private final int x;

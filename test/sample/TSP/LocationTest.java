@@ -1,10 +1,10 @@
-package sample.travellingsalesman;
+package sample.TSP;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import sample.travellingsalesman.Location;
+import sample.TSP.Location;
 
 public class LocationTest {
 

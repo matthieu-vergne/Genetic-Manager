@@ -1,4 +1,4 @@
-package sample.travellingsalesman;
+package sample.TSP;
 
 import java.util.ArrayList;
 import java.util.Arrays;

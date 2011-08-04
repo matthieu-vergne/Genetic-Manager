@@ -1,8 +1,8 @@
-package sample.travellingsalesman;
+package sample.TSP;
 
 import geneticmanager.mutation.GeneMutation;
 
-public class Main {
+public class TSP {
 	private static JCanvas canvas = new JCanvas();
 	private static GeneMutation<Integer> littleMutation;
 	private static GeneMutation<Integer> bigMutation;

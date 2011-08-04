@@ -1,5 +1,7 @@
 package geneticmanager.incubator;
 
+// TODO tests
+// TODO javadoc
 import geneticmanager.individual.Individual;
 import geneticmanager.individual.IndividualReproducer;
 
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import sample.travellingsalesman.Util;
+import sample.TSP.Util;
 
 abstract public class Incubator<Indiv extends Individual<Gene>, Gene> {
 	private final ArrayList<Indiv> population = new ArrayList<Indiv>();

@@ -1,4 +1,4 @@
-package sample.travellingsalesman;
+package sample.TSP;
 
 abstract public class Util {
 

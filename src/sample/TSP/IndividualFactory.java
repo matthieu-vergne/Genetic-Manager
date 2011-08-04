@@ -1,4 +1,4 @@
-package sample.travellingsalesman;
+package sample.TSP;
 
 import geneticmanager.mutation.GeneMutation;
 import geneticmanager.mutation.IndividualMutation;

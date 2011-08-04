@@ -1,11 +1,11 @@
-package sample.travellingsalesman;
+package sample.TSP;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import sample.travellingsalesman.Location;
-import sample.travellingsalesman.Util;
+import sample.TSP.Location;
+import sample.TSP.Util;
 
 public class UtilTest {
 

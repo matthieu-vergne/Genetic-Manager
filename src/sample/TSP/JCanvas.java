@@ -1,4 +1,4 @@
-package sample.travellingsalesman;
+package sample.TSP;
 
 import java.awt.Color;
 import java.awt.Dimension;
