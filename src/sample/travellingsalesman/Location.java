@@ -1,4 +1,4 @@
-package geneticmanager;
+package sample.travellingsalesman;
 
 public class Location {
 	private final int x;

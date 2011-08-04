@@ -1,5 +1,5 @@
 package geneticmanager.mutation;
 
-public interface IndividualMutation extends Mutation {
-	public void mutates(Integer[] genes);
+public interface IndividualMutation<Gene> extends Mutation<Gene> {
+	public void mutates(Gene[] genes);
 }

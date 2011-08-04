@@ -1,6 +1,6 @@
 package geneticmanager.mutation;
 
 
-public interface Mutation {
+public interface Mutation<Gene> {
 	public double getRate();
 }

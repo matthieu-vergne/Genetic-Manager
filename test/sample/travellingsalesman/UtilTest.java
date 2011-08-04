@@ -1,10 +1,11 @@
-package geneticmanager;
+package sample.travellingsalesman;
 
 import static org.junit.Assert.*;
-import geneticmanager.Location;
-import geneticmanager.Util;
 
 import org.junit.Test;
+
+import sample.travellingsalesman.Location;
+import sample.travellingsalesman.Util;
 
 public class UtilTest {
 

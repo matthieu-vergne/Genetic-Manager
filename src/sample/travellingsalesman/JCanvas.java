@@ -1,4 +1,4 @@
-package geneticmanager;
+package sample.travellingsalesman;
 
 import java.awt.Color;
 import java.awt.Dimension;

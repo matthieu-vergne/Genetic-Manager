@@ -1,7 +1,5 @@
-package geneticmanager.individual;
+package sample.travellingsalesman;
 
-import geneticmanager.Location;
-import geneticmanager.Util;
 import geneticmanager.mutation.GeneMutation;
 import geneticmanager.mutation.IndividualMutation;
 import geneticmanager.mutation.Mutation;
@@ -10,10 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class IndividualFactory {
-	private List<Location> locations = new ArrayList<Location>();
-	private Mutation mutation = null;
+	private List<Location> translation = new ArrayList<Location>();
+	private Mutation<Integer> mutation = null;
 	private long factoredCounter = 0;
 
 	public long getFactoredCounter() {
@@ -21,17 +18,17 @@ public class IndividualFactory {
 	}
 
 	public void addLocation(Location location) {
-		locations.add(location);
+		translation.add(location);
 	}
 
 	public Location[] getLocations() {
-		return locations.toArray(new Location[0]);
+		return translation.toArray(new Location[0]);
 	}
 
 	private Integer[] createRandomGenes() {
 		List<Integer> genes = new ArrayList<Integer>();
-		for (int index = 0; index < locations.size(); index++) {
-			int gene;
+		for (int index = 0; index < translation.size(); index++) {
+			Integer gene;
 			do {
 				gene = createRandomGeneFor(index);
 			} while (genes.contains(gene));
@@ -40,15 +37,14 @@ public class IndividualFactory {
 		return genes.toArray(new Integer[0]);
 	}
 
-	private int createRandomGeneFor(int index) {
-		return Util.randomIndex(locations.size());
+	private Integer createRandomGeneFor(int index) {
+		return Util.randomIndex(translation.size());
 	}
 
 	public Location[] getPathFor(Integer[] genes) {
-		ArrayList<Location> temp = new ArrayList<Location>(locations);
 		List<Location> path = new ArrayList<Location>();
-		for (int gene : genes) {
-			path.add(temp.get(gene));
+		for (Integer gene : genes) {
+			path.add(translation.get(gene));
 		}
 		return path.toArray(new Location[0]);
 	}
@@ -73,7 +69,7 @@ public class IndividualFactory {
 		while (geneContainer.size() > limit) {
 			geneContainer.remove(limit);
 		}
-		for (int index = 0; index < locations.size(); index++) {
+		for (int index = 0; index < translation.size(); index++) {
 			Integer gene = genes2[index];
 			if (!geneContainer.contains(gene)) {
 				geneContainer.add(gene);
@@ -84,12 +80,12 @@ public class IndividualFactory {
 		// mutation
 		if (mutation instanceof IndividualMutation) {
 			if (Math.random() < mutation.getRate()) {
-				((IndividualMutation) mutation).mutates(genes);
+				((IndividualMutation<Integer>) mutation).mutates(genes);
 			}
 		} else if (mutation instanceof GeneMutation) {
 			for (int index = 0; index < geneContainer.size(); index++) {
 				if (Math.random() < mutation.getRate()) {
-					((GeneMutation) mutation).mutates(genes, index);
+					((GeneMutation<Integer>) mutation).mutates(genes, index);
 				}
 			}
 		}
@@ -97,11 +93,11 @@ public class IndividualFactory {
 		return createIndividual(genes);
 	}
 
-	public Mutation getMutation() {
+	public Mutation<Integer> getMutation() {
 		return mutation;
 	}
 
-	public void setMutation(Mutation mutation) {
+	public void setMutation(Mutation<Integer> mutation) {
 		this.mutation = mutation;
 	}
 

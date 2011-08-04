@@ -1,15 +1,16 @@
-package geneticmanager.individual;
+package sample.travellingsalesman;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import geneticmanager.Location;
-import geneticmanager.individual.IndividualFactory;
 
 import org.junit.Test;
 
-public class IndividualGeneratorTest {
+import sample.travellingsalesman.IndividualFactory;
+import sample.travellingsalesman.Location;
+
+public class IndividualFactoryTest {
 
 	@Test
 	public void testLocation() {
