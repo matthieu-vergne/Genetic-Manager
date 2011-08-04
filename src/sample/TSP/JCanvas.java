@@ -17,8 +17,8 @@ public class JCanvas extends JPanel {
 	private final JFrame frame;
 	private List<Location> path = new ArrayList<Location>();
 	private int radius;
-	private int xRate;
-	private int yRate;
+	private double xRate;
+	private double yRate;
 
 	public JCanvas() {
 		frame = new JFrame("Travelling Salesman");
@@ -45,8 +45,8 @@ public class JCanvas extends JPanel {
 	}
 
 	private void resize() {
-		int xMax = 1;
-		int yMax = 1;
+		double xMax = 1;
+		double yMax = 1;
 		for (Location location : path) {
 			xMax = Math.max(location.getX(), xMax);
 			yMax = Math.max(location.getY(), yMax);
@@ -59,7 +59,8 @@ public class JCanvas extends JPanel {
 		yRate = xRate;
 		int dx = frame.getWidth() - getWidth();
 		int dy = frame.getHeight() - getHeight();
-		frame.setSize(xRate * xMax + radius + dx, yRate * yMax + radius + dy);
+		frame.setSize((int) (xRate * xMax) + radius + dx, (int) (yRate * yMax)
+				+ radius + dy);
 	}
 
 	public Location[] getPath() {
@@ -80,10 +81,10 @@ public class JCanvas extends JPanel {
 		Location start = remains.remove(0);
 		while (!remains.isEmpty()) {
 			Location end = remains.remove(0);
-			int xStart = start.getX() * xRate;
-			int yStart = start.getY() * yRate;
-			int xEnd = end.getX() * xRate;
-			int yEnd = end.getY() * yRate;
+			int xStart = (int) (start.getX() * xRate);
+			int yStart = (int) (start.getY() * yRate);
+			int xEnd = (int) (end.getX() * xRate);
+			int yEnd = (int) (end.getY() * yRate);
 			int[] xPoints = new int[] { xStart, xEnd, xEnd, xStart };
 			int[] yPoints = new int[] { yStart, yEnd, yEnd, yStart };
 			if (xStart == xEnd) {
@@ -103,8 +104,8 @@ public class JCanvas extends JPanel {
 
 		g.setColor(Color.BLUE);
 		for (Location location : path) {
-			int x = location.getX() * xRate - radius;
-			int y = location.getY() * yRate - radius;
+			int x = (int) (location.getX() * xRate) - radius;
+			int y = (int) (location.getY() * yRate) - radius;
 			int diameter = 2 * radius;
 			g.fillOval(x, y, diameter, diameter);
 		}

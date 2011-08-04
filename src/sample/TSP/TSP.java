@@ -8,13 +8,12 @@ public class TSP {
 	private static GeneMutation<Integer> bigMutation;
 	private static IndividualFactory factory;
 	private static Incubator incubator;
+	private static long startTime;
 
 	public static void main(String[] args) {
 		factory = new IndividualFactory();
-		for (int x = 0; x < 10; x++) {
-			for (int y = 0; y < 10; y++) {
-				factory.addLocation(new Location(x, y));
-			}
+		for (Location location : CsvReader.parse("src/sample/TSP/defi250.csv")) {
+			factory.addLocation(location);
 		}
 
 		incubator = new Incubator();
@@ -25,6 +24,7 @@ public class TSP {
 		incubator.addIndividual(factory.createRandomIndividual());
 
 		initMutations();
+		startTime = System.currentTimeMillis();
 		while (true) {
 			if (incubator.getStationaryTime() > 100) {
 				factory.setMutation(bigMutation);
@@ -95,7 +95,8 @@ public class TSP {
 		Individual best = incubator.getBestIndividual();
 		if (isBetterPath(best.getLocations())) {
 			canvas.setPath(best.getLocations());
-			String terminal = String.format("%8d - ",
+			double time = (double) (System.currentTimeMillis() - startTime) / 1000;
+			String terminal = String.format("%8.3fs| %8d - ", time,
 					factory.getFactoredCounter());
 			if (best.getFactory().getMutation() == bigMutation) {
 				terminal += "+";
