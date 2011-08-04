@@ -7,13 +7,12 @@ public class Main {
 	private static CultureRoom cultureRoom = new CultureRoom();
 	private static GeneMutation littleMutation;
 	private static GeneMutation bigMutation;
-	private static long startTime;
 	private static IndividualFactory factory;
 
 	public static void main(String[] args) {
 		factory = new IndividualFactory();
 		for (int x = 0; x < 20; x++) {
-			for (int y = 0; y < 10; y++) {
+			for (int y = 0; y < 20; y++) {
 				factory.addLocation(new Location(x, y));
 			}
 		}
@@ -29,7 +28,6 @@ public class Main {
 		}
 
 		initMutations();
-		startTime = System.currentTimeMillis();
 		while (true) {
 			for (Incubator incubator : cultureRoom.getIncubators()) {
 				if (incubator.getStationaryTime() > 100) {
@@ -104,8 +102,6 @@ public class Main {
 	private static void displayResult(Individual best) {
 		if (isBetterPath(best.getPath())) {
 			canvas.setPath(best.getPath());
-			// String terminal = String.format("%8.3fs - ",
-			// (double) (System.currentTimeMillis() - startTime) / 1000);
 			String terminal = String.format("%8d - ",
 					factory.getFactoredCounter());
 			for (Incubator incubator : cultureRoom.getIncubators()) {

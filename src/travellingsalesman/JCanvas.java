@@ -40,8 +40,9 @@ public class JCanvas extends JPanel {
 		path = Arrays.asList(locations);
 		if (wasEmpty) {
 			resize();
+		} else {
+			repaint();
 		}
-		repaint();
 	}
 
 	private void resize() {
@@ -59,8 +60,7 @@ public class JCanvas extends JPanel {
 		yRate = xRate;
 		int dx = frame.getWidth() - getWidth();
 		int dy = frame.getHeight() - getHeight();
-		frame.setSize(xRate * xMax + radius + dx, yRate * yMax + radius
-				+ dy);
+		frame.setSize(xRate * xMax + radius + dx, yRate * yMax + radius + dy);
 	}
 
 	public Location[] getPath() {

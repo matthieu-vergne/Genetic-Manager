@@ -22,7 +22,7 @@ abstract public class Util {
 			Location end = path[index + 1];
 			double dx = end.getX() - start.getX();
 			double dy = end.getY() - start.getY();
-			//double distance = dx * dx + dy * dy;
+			// double distance = dx * dx + dy * dy;
 			double distance = Math.sqrt(dx * dx + dy * dy);
 			length += distance;
 		}
