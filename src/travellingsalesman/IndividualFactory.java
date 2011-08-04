@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import travellingsalesman.mutation.GeneMutation;
+import travellingsalesman.mutation.IndividualMutation;
+import travellingsalesman.mutation.Mutation;
+
 public class IndividualFactory {
 	private List<Location> locations = new ArrayList<Location>();
-	private double mutationRate = 0.01;
+	private Mutation mutation = null;
 
 	public void addLocation(Location location) {
 		locations.add(location);
@@ -14,14 +18,6 @@ public class IndividualFactory {
 
 	public Location[] getLocations() {
 		return locations.toArray(new Location[0]);
-	}
-
-	public double getMutationRate() {
-		return mutationRate;
-	}
-
-	public void setMutationRate(double mutationRate) {
-		this.mutationRate = mutationRate;
 	}
 
 	private Integer[] createRandomGenes() {
@@ -55,29 +51,43 @@ public class IndividualFactory {
 
 	public Individual createIndividualFrom(Individual i1, Individual i2) {
 		// crossing
-		List<Integer> genes = new ArrayList<Integer>(Arrays.asList(i1
+		List<Integer> geneContainer = new ArrayList<Integer>(Arrays.asList(i1
 				.getGenes()));
 		Integer[] genes2 = i2.getGenes();
-		int limit = Util.randomIndex(genes.size());
-		while (genes.size() > limit) {
-			genes.remove(limit);
+		int limit = Util.randomIndex(geneContainer.size());
+		while (geneContainer.size() > limit) {
+			geneContainer.remove(limit);
 		}
 		for (int index = 0; index < locations.size(); index++) {
 			Integer gene = genes2[index];
-			if (!genes.contains(gene)) {
-				genes.add(gene);
+			if (!geneContainer.contains(gene)) {
+				geneContainer.add(gene);
 			}
 		}
+		Integer[] genes = geneContainer.toArray(new Integer[0]);
 
 		// mutation
-		for(int index = 0 ; index < genes.size() ; index ++){
-			if (Math.random() < getMutationRate()) {
-				int newIndex = Util.randomIndex(genes.size());
-				genes.add(newIndex, genes.remove(index));
+		if (mutation instanceof IndividualMutation) {
+			if (Math.random() < mutation.getRate()) {
+				((IndividualMutation) mutation).mutates(genes);
+			}
+		} else if (mutation instanceof GeneMutation) {
+			for (int index = 0; index < geneContainer.size(); index++) {
+				if (Math.random() < mutation.getRate()) {
+					((GeneMutation) mutation).mutates(genes, index);
+				}
 			}
 		}
 
-		return new Individual(this, genes.toArray(new Integer[0]));
+		return new Individual(this, genes);
+	}
+
+	public Mutation getMutation() {
+		return mutation;
+	}
+
+	public void setMutation(Mutation mutation) {
+		this.mutation = mutation;
 	}
 
 }

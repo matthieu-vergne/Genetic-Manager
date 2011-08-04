@@ -7,28 +7,68 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
+import travellingsalesman.mutation.GeneMutation;
+
 public class Main {
 	private static JCanvas canvas;
 	private static CultureRoom cultureRoom = new CultureRoom();
+	private static GeneMutation fastMutation;
+	private static GeneMutation bigMutation;
 
 	public static void main(String[] args) {
-		IndividualFactory generator = new IndividualFactory();
+		IndividualFactory factory = new IndividualFactory();
 		for (int x = 0; x < 20; x++) {
 			for (int y = 0; y < 10; y++) {
-				generator.addLocation(new Location(x, y));
+				factory.addLocation(new Location(x, y));
 			}
 		}
+		fastMutation = new GeneMutation() {
 
-		generator.setMutationRate(0.01);
-		for (int i = 0; i < 10; i++) {
+			@Override
+			public double getRate() {
+				return 0.01;
+			}
+
+			@Override
+			public void mutates(Integer[] genes, int index) {
+				int newIndex = Util.randomIndex(genes.length);
+				int temp = genes[index];
+				genes[index] = genes[newIndex];
+				genes[newIndex] = temp;
+			}
+		};
+		bigMutation = new GeneMutation() {
+
+			@Override
+			public double getRate() {
+				return 0.01;
+			}
+
+			@Override
+			public void mutates(Integer[] genes, int index) {
+				int start = index;
+				int end = Util.randomIndex(genes.length);
+				if (start > end) {
+					int temp = start;
+					start = end;
+					end = temp;
+				}
+				while (start < end) {
+					int temp = genes[start];
+					genes[start] = genes[end];
+					genes[end] = temp;
+					start++;
+					end--;
+				}
+			}
+		};
+
+		for (int i = 0; i < 1; i++) {
 			Incubator incubator = new Incubator("" + i);
 			incubator.setGenerationSize(10);
 			incubator.setDoubleKept(true);
-			incubator.addIndividual(generator.createRandomIndividual());
-			incubator.addIndividual(generator.createRandomIndividual());
-			incubator.addIndividual(generator.createRandomIndividual());
-			incubator.addIndividual(generator.createRandomIndividual());
-			incubator.addIndividual(generator.createRandomIndividual());
+			incubator.addIndividual(factory.createRandomIndividual());
+			incubator.addIndividual(factory.createRandomIndividual());
 
 			cultureRoom.add(incubator);
 		}
@@ -36,15 +76,12 @@ public class Main {
 		initCanvas();
 		while (true) {
 			for (Incubator incubator : cultureRoom.getIncubators()) {
-				if (incubator.getStationaryTime() > 1000
-						&& incubator.getGenerationCounter() > 10000) {
-					Individual best = incubator.getBestIndividual();
-					incubator.clean();
-					incubator.addIndividual(best);
-					for (Incubator source : cultureRoom.getIncubators()) {
-						incubator.addIndividual(source.getBestIndividual());
-					}
+				if (incubator.getStationaryTime() > 100) {
+					factory.setMutation(bigMutation);
+				} else {
+					factory.setMutation(fastMutation);
 				}
+				incubator.addIndividual(factory.createRandomIndividual());
 				incubator.crossPopulation();
 				incubator.makeSelection();
 			}
@@ -61,10 +98,14 @@ public class Main {
 			canvas.setPath(best.getPath());
 			String terminal = "";
 			for (Incubator incubator : cultureRoom.getIncubators()) {
-				Individual best2 = incubator.getBestIndividual();
-				String str = incubator + " = "
-						+ ((double) Math.round(best2.getLength() * 100) / 100);
-				if (best == best2) {
+				Individual localBest = incubator.getBestIndividual();
+				String str = incubator
+						+ " = "
+						+ ((double) Math.round(localBest.getLength() * 100) / 100);
+				if (localBest.getFactory().getMutation() == bigMutation) {
+					str = "!" + str;
+				}
+				if (best == localBest) {
 					str = "[" + str + "]";
 				}
 				terminal += str + " ";

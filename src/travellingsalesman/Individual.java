@@ -6,14 +6,14 @@ import java.util.List;
 public class Individual {
 	private final List<Integer> genes;
 	private final IndividualFactory factory;
-
+	
 	public Individual(IndividualFactory generator, Integer... genes) {
 		this.factory = generator;
 		this.genes = Arrays.asList(genes);
 	}
 
 	public Location[] getPath() {
-		return factory.getPathFor(genes.toArray(new Integer[0]));
+		return getFactory().getPathFor(genes.toArray(new Integer[0]));
 	}
 
 	public double getLength() {
@@ -35,6 +35,10 @@ public class Individual {
 	}
 	
 	public Individual reproduceWith(Individual individual) {
-		return factory.createIndividualFrom(this, individual);
+		return getFactory().createIndividualFrom(this, individual);
+	}
+
+	public IndividualFactory getFactory() {
+		return factory;
 	}
 }
