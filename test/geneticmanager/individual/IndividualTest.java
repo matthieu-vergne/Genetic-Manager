@@ -1,6 +1,9 @@
-package travellingsalesman;
+package geneticmanager.individual;
 
 import static org.junit.Assert.*;
+import geneticmanager.Location;
+import geneticmanager.individual.Individual;
+import geneticmanager.individual.IndividualFactory;
 
 import org.junit.Test;
 

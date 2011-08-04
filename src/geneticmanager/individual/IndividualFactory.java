@@ -1,12 +1,15 @@
-package travellingsalesman;
+package geneticmanager.individual;
+
+import geneticmanager.Location;
+import geneticmanager.Util;
+import geneticmanager.mutation.GeneMutation;
+import geneticmanager.mutation.IndividualMutation;
+import geneticmanager.mutation.Mutation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import travellingsalesman.mutation.GeneMutation;
-import travellingsalesman.mutation.IndividualMutation;
-import travellingsalesman.mutation.Mutation;
 
 public class IndividualFactory {
 	private List<Location> locations = new ArrayList<Location>();

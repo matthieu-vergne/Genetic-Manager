@@ -1,4 +1,4 @@
-package travellingsalesman;
+package geneticmanager.individual;
 
 import java.util.Comparator;
 

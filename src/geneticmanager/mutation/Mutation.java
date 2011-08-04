@@ -1,4 +1,4 @@
-package travellingsalesman.mutation;
+package geneticmanager.mutation;
 
 
 public interface Mutation {

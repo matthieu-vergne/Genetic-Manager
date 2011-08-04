@@ -1,4 +1,7 @@
-package travellingsalesman;
+package geneticmanager.individual;
+
+import geneticmanager.Location;
+import geneticmanager.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

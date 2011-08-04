@@ -1,9 +1,11 @@
-package travellingsalesman;
+package geneticmanager.individual;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import geneticmanager.Location;
+import geneticmanager.individual.IndividualFactory;
 
 import org.junit.Test;
 

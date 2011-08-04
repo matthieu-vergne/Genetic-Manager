@@ -1,4 +1,8 @@
-package travellingsalesman;
+package geneticmanager.incubator;
+
+import geneticmanager.Util;
+import geneticmanager.individual.Individual;
+import geneticmanager.individual.IndividualComparator;
 
 import java.util.ArrayList;
 import java.util.Arrays;

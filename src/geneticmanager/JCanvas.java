@@ -1,4 +1,4 @@
-package travellingsalesman;
+package geneticmanager;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -40,9 +40,8 @@ public class JCanvas extends JPanel {
 		path = Arrays.asList(locations);
 		if (wasEmpty) {
 			resize();
-		} else {
-			repaint();
 		}
+		repaint();
 	}
 
 	private void resize() {
@@ -70,6 +69,10 @@ public class JCanvas extends JPanel {
 	public void paint(Graphics g) {
 		g.clearRect(0, 0, getWidth(), getHeight());
 		Color originalColor = g.getColor();
+
+		if (path.isEmpty()) {
+			return;
+		}
 
 		g.setColor(Color.RED);
 		List<Location> remains = new ArrayList<Location>(path);

@@ -1,4 +1,7 @@
-package travellingsalesman;
+package geneticmanager.cultureroom;
+
+import geneticmanager.incubator.Incubator;
+import geneticmanager.individual.IndividualComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;

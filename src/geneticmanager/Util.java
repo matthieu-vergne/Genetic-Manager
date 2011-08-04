@@ -1,4 +1,4 @@
-package travellingsalesman;
+package geneticmanager;
 
 abstract public class Util {
 

@@ -1,6 +1,10 @@
-package travellingsalesman;
+package geneticmanager;
 
-import travellingsalesman.mutation.GeneMutation;
+import geneticmanager.cultureroom.CultureRoom;
+import geneticmanager.incubator.Incubator;
+import geneticmanager.individual.Individual;
+import geneticmanager.individual.IndividualFactory;
+import geneticmanager.mutation.GeneMutation;
 
 public class Main {
 	private static JCanvas canvas = new JCanvas();
@@ -77,7 +81,7 @@ public class Main {
 
 			@Override
 			public void mutates(Integer[] genes, int index) {
-				if (Math.random() < 0.1) {
+				if (Math.random() < 0.5) {
 					littleMutation.mutates(genes, index);
 				} else {
 					int start = index;

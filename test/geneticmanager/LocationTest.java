@@ -1,6 +1,7 @@
-package travellingsalesman;
+package geneticmanager;
 
 import static org.junit.Assert.*;
+import geneticmanager.Location;
 
 import org.junit.Test;
 
