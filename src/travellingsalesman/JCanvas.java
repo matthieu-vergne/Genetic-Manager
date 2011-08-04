@@ -1,20 +1,66 @@
 package travellingsalesman;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class JCanvas extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private final JFrame frame;
 	private List<Location> path = new ArrayList<Location>();
+	private int radius;
+	private int xRate;
+	private int yRate;
+
+	public JCanvas() {
+		frame = new JFrame("Travelling Salesman");
+		WindowAdapter wa = new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		};
+		frame.addWindowListener(wa);
+		setBackground(Color.WHITE);
+		setPreferredSize(new Dimension(1000, 600));
+		frame.getContentPane().add(this);
+		frame.pack();
+		frame.setVisible(true);
+	}
 
 	public void setPath(Location... locations) {
+		boolean wasEmpty = path.isEmpty();
 		path = Arrays.asList(locations);
+		if (wasEmpty) {
+			resize();
+		}
 		repaint();
+	}
+
+	private void resize() {
+		int xMax = 1;
+		int yMax = 1;
+		for (Location location : path) {
+			xMax = Math.max(location.getX(), xMax);
+			yMax = Math.max(location.getY(), yMax);
+		}
+
+		radius = 5;
+		xRate = (getWidth() - radius) / xMax;
+		yRate = (getHeight() - radius) / yMax;
+		xRate = Math.min(xRate, yRate);
+		yRate = xRate;
+		int dx = frame.getWidth() - getWidth();
+		int dy = frame.getHeight() - getHeight();
+		frame.setSize(xRate * xMax + radius + dx, yRate * yMax + radius
+				+ dy);
 	}
 
 	public Location[] getPath() {
@@ -23,29 +69,14 @@ public class JCanvas extends JPanel {
 
 	public void paint(Graphics g) {
 		g.clearRect(0, 0, getWidth(), getHeight());
-
-		if (path.isEmpty()) {
-			return;
-		}
-		
-		int xMax = 1;
-		int yMax = 1;
-		for (Location location : path) {
-			xMax = Math.max(location.getX(), xMax);
-			yMax = Math.max(location.getY(), yMax);
-		}
-
-		final int radius = 5;
-		final int xRate = (getWidth() - radius) / xMax;
-		final int yRate = (getHeight() - radius) / yMax;
-
 		Color originalColor = g.getColor();
 
 		g.setColor(Color.RED);
-		List<Location> temp = new ArrayList<Location>(path);
-		Location start = temp.remove(0);
-		while (!temp.isEmpty()) {
-			Location end = temp.remove(0);
+		List<Location> remains = new ArrayList<Location>(path);
+		remains.add(remains.get(0));
+		Location start = remains.remove(0);
+		while (!remains.isEmpty()) {
+			Location end = remains.remove(0);
 			int xStart = start.getX() * xRate;
 			int yStart = start.getY() * yRate;
 			int xEnd = end.getX() * xRate;

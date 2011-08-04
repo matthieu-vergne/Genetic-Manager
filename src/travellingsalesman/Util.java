@@ -11,8 +11,8 @@ abstract public class Util {
 		return (int) Math.floor(Math.random() * total);
 	}
 
-	public static double getPathLength(Location[] path) {
-		if (path.length == 0) {
+	public static double getPathLength(Location... path) {
+		if (path == null || path.length == 0) {
 			return Double.POSITIVE_INFINITY;
 		}
 

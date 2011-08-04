@@ -11,6 +11,11 @@ import travellingsalesman.mutation.Mutation;
 public class IndividualFactory {
 	private List<Location> locations = new ArrayList<Location>();
 	private Mutation mutation = null;
+	private long factoredCounter = 0;
+
+	public long getFactoredCounter() {
+		return factoredCounter;
+	}
 
 	public void addLocation(Location location) {
 		locations.add(location);
@@ -46,7 +51,14 @@ public class IndividualFactory {
 	}
 
 	public Individual createRandomIndividual() {
-		return new Individual(this, createRandomGenes());
+		Integer[] genes = createRandomGenes();
+		return createIndividual(genes);
+	}
+
+	public Individual createIndividual(Integer[] genes) {
+		Individual individual = new Individual(this, genes);
+		factoredCounter++;
+		return individual;
 	}
 
 	public Individual createIndividualFrom(Individual i1, Individual i2) {
@@ -79,7 +91,7 @@ public class IndividualFactory {
 			}
 		}
 
-		return new Individual(this, genes);
+		return createIndividual(genes);
 	}
 
 	public Mutation getMutation() {
