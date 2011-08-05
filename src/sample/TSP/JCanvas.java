@@ -87,7 +87,7 @@ public class JCanvas extends JPanel {
 			int yEnd = (int) (end.getY() * yRate);
 			int[] xPoints = new int[] { xStart, xEnd, xEnd, xStart };
 			int[] yPoints = new int[] { yStart, yEnd, yEnd, yStart };
-			if (xStart == xEnd) {
+			if (Math.abs(xStart - xEnd) <= Math.abs(yStart - yEnd)) {
 				xPoints[0]--;
 				xPoints[1]--;
 				xPoints[2]++;

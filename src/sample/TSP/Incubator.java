@@ -1,20 +1,17 @@
 package sample.TSP;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
 import geneticmanager.individual.IIndividualReproducer;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Incubator extends
 		geneticmanager.incubator.DefaultIncubator<Individual> {
 	private long generationCounter = 0;
-	private final ArrayList<Individual> population = new ArrayList<Individual>();
+	private final Set<Individual> population = new TreeSet<Individual>();
 	private int stationaryTime = 0;
-	private boolean isDoubleKept = true;
 	private IndividualFactory factory;
 	private IIndividualReproducer<Individual> reproducer = new IIndividualReproducer<Individual>() {
-
 		@Override
 		public Individual reproduce(Individual i1, Individual i2) {
 			return factory.createIndividualFrom(i1, i2);
@@ -38,70 +35,52 @@ public class Incubator extends
 			throw new IllegalStateException(
 					"No reproducer as been defined, you cannot cross the population.");
 		}
-		ArrayList<Individual> availableIndividuals = new ArrayList<Individual>(
-				population);
-		while (availableIndividuals.size() > 1) {
-			Individual i1 = availableIndividuals.remove(Util
-					.randomIndex(availableIndividuals.size()));
-			Individual i2 = availableIndividuals.remove(Util
-					.randomIndex(availableIndividuals.size()));
-			population.add(reproducer.reproduce(i1, i2));
+
+		double previousBest = getBestIndividual().getLength();
+
+		Individual father = makeSelection();
+		Individual mother = makeSelection();
+		population.add(reproducer.reproduce(father, mother));
+
+		double newBest = getBestIndividual().getLength();
+		if (newBest != previousBest) {
+			stationaryTime = 0;
+		} else {
+			stationaryTime++;
 		}
 
 		generationCounter++;
+	}
+
+	public void reducePopulationTo(int size) {
+		if (size < population.size()) {
+			Individual[] array = population.toArray(new Individual[0]);
+			for (int index = size; index < array.length; index++) {
+				population.remove(array[index]);
+			}
+		}
+	}
+
+	private Individual makeSelection() {
+		return population.toArray(new Individual[0])[Util
+				.randomIndex(population.size())];
 	}
 
 	public long getGenerationCounter() {
 		return generationCounter;
 	}
 
-	private void removeDoubles() {
-		ArrayList<Individual> temp = new ArrayList<Individual>(population);
-		for (Individual i1 : temp) {
-			for (Individual i2 : temp) {
-				if (i1 != i2 && Arrays.deepEquals(i1.getGenes(), i2.getGenes())) {
-					population.remove(i2);
-				}
-			}
-		}
-	}
-
-	private void reducePopulation() {
-		Collections.sort(population);
-		while (population.size() > getGenerationSize()) {
-			population.remove(getGenerationSize());
-		}
-	}
-
-	public void makeSelection() {
-		Individual previousResult = getBestIndividual();
-
-		if (!isDoubleKept()) {
-			removeDoubles();
-		}
-		reducePopulation();
-
-		Individual newResult = getBestIndividual();
-		if (newResult.compareTo(previousResult) != 0) {
-			stationaryTime = 0;
-		} else {
-			stationaryTime++;
-		}
-	}
-
-	private int generationSize = 10;
-
 	public int getGenerationSize() {
-		return generationSize;
-	}
-
-	public void setGenerationSize(int generationSize) {
-		this.generationSize = generationSize;
+		return population.size();
 	}
 
 	@Override
 	public Individual getBestIndividual() {
-		return population.isEmpty() ? null : population.get(0);
+		if (population.isEmpty()) {
+			return null;
+		} else {
+			return population.iterator().next();
+		}
 	}
 
 	@Override
@@ -117,14 +96,6 @@ public class Incubator extends
 		population.clear();
 		stationaryTime = 0;
 		generationCounter = 0;
-	}
-
-	public boolean isDoubleKept() {
-		return isDoubleKept;
-	}
-
-	public void setDoubleKept(boolean isDoubleKept) {
-		this.isDoubleKept = isDoubleKept;
 	}
 
 }

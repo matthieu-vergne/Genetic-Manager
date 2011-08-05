@@ -8,5 +8,8 @@ import geneticmanager.individual.IIndividual;
 public interface IIncubator<Indiv extends IIndividual<?>> {
 	public void addIndividual(Indiv individual);
 
+	public int getGenerationSize();
+
 	public Indiv getBestIndividual();
+
 }

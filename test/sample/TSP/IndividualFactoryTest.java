@@ -15,21 +15,21 @@ public class IndividualFactoryTest {
 	@Test
 	public void testLocation() {
 		IndividualFactory generator = new IndividualFactory();
-		assertEquals(0, generator.getLocations().length);
+		assertEquals(0, generator.getLocationsCounter());
 
 		Location l0 = new Location(0, 0);
 		generator.addLocation(l0);
-		assertEquals(1, generator.getLocations().length);
+		assertEquals(1, generator.getLocationsCounter());
 		assertArrayEquals(new Location[] { l0 }, generator.getLocations());
 
 		Location l1 = new Location(0, 1);
 		generator.addLocation(l1);
-		assertEquals(2, generator.getLocations().length);
+		assertEquals(2, generator.getLocationsCounter());
 		assertArrayEquals(new Location[] { l0, l1 }, generator.getLocations());
 
 		Location l2 = new Location(1, 0);
 		generator.addLocation(l2);
-		assertEquals(3, generator.getLocations().length);
+		assertEquals(3, generator.getLocationsCounter());
 		assertArrayEquals(new Location[] { l0, l1, l2 },
 				generator.getLocations());
 	}
@@ -87,7 +87,7 @@ public class IndividualFactoryTest {
 
 		for (int loop = 0; loop < 200; loop++) {
 			Integer[] genes = generator.createRandomIndividual().getGenes();
-			assertEquals(generator.getLocations().length, genes.length);
+			assertEquals(generator.getLocationsCounter(), genes.length);
 
 			int length = genes.length;
 			boolean[] used = new boolean[length];

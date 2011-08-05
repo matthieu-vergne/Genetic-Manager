@@ -6,6 +6,7 @@ public class TSP {
 	private static JCanvas canvas = new JCanvas();
 	private static IGeneMutation<Integer> littleMutation;
 	private static IGeneMutation<Integer> bigMutation;
+	private static IGeneMutation<Integer> composedMutation;
 	private static IndividualFactory factory;
 	private static Incubator incubator;
 	private static long startTime;
@@ -18,22 +19,21 @@ public class TSP {
 
 		incubator = new Incubator();
 		incubator.setFactory(factory);
-		incubator.setGenerationSize(10);
-		incubator.setDoubleKept(true);
-		incubator.addIndividual(factory.createRandomIndividual());
-		incubator.addIndividual(factory.createRandomIndividual());
+		for (int i = 0; i < 50; i++) {
+			incubator.addIndividual(factory.createRandomIndividual());
+		}
 
 		initMutations();
 		startTime = System.currentTimeMillis();
+		factory.setMutation(composedMutation);
 		while (true) {
-			if (incubator.getStationaryTime() > 100) {
-				factory.setMutation(bigMutation);
-			} else {
-				factory.setMutation(littleMutation);
-			}
-
 			incubator.crossPopulation();
-			incubator.makeSelection();
+			if(incubator.getGenerationSize() > 50){
+				incubator.reducePopulationTo(10);
+				for(int i = 0 ; i < incubator.getGenerationSize() ; i++){
+					incubator.addIndividual(factory.createRandomIndividual());
+				}
+			}
 
 			displayResult();
 		}
@@ -44,7 +44,7 @@ public class TSP {
 
 			@Override
 			public double getRate() {
-				return 0.01;
+				return 1.0 / factory.getLocationsCounter();
 			}
 
 			@Override
@@ -69,7 +69,7 @@ public class TSP {
 
 			@Override
 			public void mutates(Integer[] genes, int index) {
-				if (Math.random() < 0.5) {
+				if (Math.random() < 0.1) {
 					littleMutation.mutates(genes, index);
 				} else {
 					int start = index;
@@ -89,6 +89,23 @@ public class TSP {
 				}
 			}
 		};
+
+		composedMutation = new IGeneMutation<Integer>() {
+
+			@Override
+			public double getRate() {
+				return littleMutation.getRate();
+			}
+
+			@Override
+			public void mutates(Integer[] genes, int index) {
+				if (Math.random() < 0.1) {
+					littleMutation.mutates(genes, index);
+				} else {
+					bigMutation.mutates(genes, index);
+				}
+			}
+		};
 	}
 
 	private static void displayResult() {
@@ -98,9 +115,6 @@ public class TSP {
 			double time = (double) (System.currentTimeMillis() - startTime) / 1000;
 			String terminal = String.format("%8.3fs| %8d - ", time,
 					factory.getFactoredCounter());
-			if (best.getFactory().getMutation() == bigMutation) {
-				terminal += "+";
-			}
 			terminal += ((double) Math.round(best.getLength() * 100) / 100);
 			System.out.println(terminal);
 		}

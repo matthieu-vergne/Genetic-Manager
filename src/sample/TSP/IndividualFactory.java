@@ -25,6 +25,10 @@ public class IndividualFactory {
 		return translation.toArray(new Location[0]);
 	}
 
+	public int getLocationsCounter() {
+		return translation.size();
+	}
+
 	private Integer[] createRandomGenes() {
 		List<Integer> genes = new ArrayList<Integer>();
 		for (int index = 0; index < translation.size(); index++) {
