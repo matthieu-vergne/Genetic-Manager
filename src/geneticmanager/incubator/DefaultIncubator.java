@@ -2,8 +2,8 @@ package geneticmanager.incubator;
 
 // TODO tests
 // TODO javadoc
-import geneticmanager.individual.Individual;
-import geneticmanager.individual.IndividualReproducer;
+import geneticmanager.individual.IIndividual;
+import geneticmanager.individual.IIndividualReproducer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import java.util.Collections;
 
 import sample.TSP.Util;
 
-abstract public class Incubator<Indiv extends Individual<Gene>, Gene> {
+abstract public class DefaultIncubator<Indiv extends IIndividual<Gene>, Gene> implements IIncubator<Indiv, Gene> {
 	private final ArrayList<Indiv> population = new ArrayList<Indiv>();
 	private long generationCounter = 0;
 	private int generationSize = 10;
@@ -27,7 +27,7 @@ abstract public class Incubator<Indiv extends Individual<Gene>, Gene> {
 	}
 
 	public void crossPopulation() {
-		IndividualReproducer<Indiv> reproducer = getReproducer();
+		IIndividualReproducer<Indiv> reproducer = getReproducer();
 		if (reproducer == null) {
 			throw new IllegalStateException(
 					"No reproducer as been defined, you cannot cross the population.");
@@ -108,5 +108,5 @@ abstract public class Incubator<Indiv extends Individual<Gene>, Gene> {
 		generationCounter = 0;
 	}
 
-	abstract public IndividualReproducer<Indiv> getReproducer();
+	abstract public IIndividualReproducer<Indiv> getReproducer();
 }

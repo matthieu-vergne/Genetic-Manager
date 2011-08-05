@@ -3,7 +3,7 @@ package sample.TSP;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Individual extends geneticmanager.individual.Individual<Integer> {
+public class Individual extends geneticmanager.individual.DefaultIndividual<Integer> {
 	private final IndividualFactory factory;
 
 	public Individual(IndividualFactory generator, Integer... genes) {
@@ -27,7 +27,7 @@ public class Individual extends geneticmanager.individual.Individual<Integer> {
 	}
 
 	@Override
-	public int compareTo(geneticmanager.individual.Individual<Integer> indiv) {
+	public int compareTo(geneticmanager.individual.IIndividual<Integer> indiv) {
 		return Double.valueOf(this.getLength()).compareTo(
 				Double.valueOf(((Individual) indiv).getLength()));
 	}

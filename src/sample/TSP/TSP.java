@@ -1,11 +1,11 @@
 package sample.TSP;
 
-import geneticmanager.mutation.GeneMutation;
+import geneticmanager.mutation.IGeneMutation;
 
 public class TSP {
 	private static JCanvas canvas = new JCanvas();
-	private static GeneMutation<Integer> littleMutation;
-	private static GeneMutation<Integer> bigMutation;
+	private static IGeneMutation<Integer> littleMutation;
+	private static IGeneMutation<Integer> bigMutation;
 	private static IndividualFactory factory;
 	private static Incubator incubator;
 	private static long startTime;
@@ -40,7 +40,7 @@ public class TSP {
 	}
 
 	private static void initMutations() {
-		littleMutation = new GeneMutation<Integer>() {
+		littleMutation = new IGeneMutation<Integer>() {
 
 			@Override
 			public double getRate() {
@@ -60,7 +60,7 @@ public class TSP {
 			}
 		};
 
-		bigMutation = new GeneMutation<Integer>() {
+		bigMutation = new IGeneMutation<Integer>() {
 
 			@Override
 			public double getRate() {

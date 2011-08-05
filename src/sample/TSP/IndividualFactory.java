@@ -1,8 +1,8 @@
 package sample.TSP;
 
-import geneticmanager.mutation.GeneMutation;
-import geneticmanager.mutation.IndividualMutation;
-import geneticmanager.mutation.Mutation;
+import geneticmanager.mutation.IGeneMutation;
+import geneticmanager.mutation.IIndividualMutation;
+import geneticmanager.mutation.IMutation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class IndividualFactory {
 	private List<Location> translation = new ArrayList<Location>();
-	private Mutation<Integer> mutation = null;
+	private IMutation<Integer> mutation = null;
 	private long factoredCounter = 0;
 
 	public long getFactoredCounter() {
@@ -78,14 +78,14 @@ public class IndividualFactory {
 		Integer[] genes = geneContainer.toArray(new Integer[0]);
 
 		// mutation
-		if (mutation instanceof IndividualMutation) {
+		if (mutation instanceof IIndividualMutation) {
 			if (Math.random() < mutation.getRate()) {
-				((IndividualMutation<Integer>) mutation).mutates(genes);
+				((IIndividualMutation<Integer>) mutation).mutates(genes);
 			}
-		} else if (mutation instanceof GeneMutation) {
+		} else if (mutation instanceof IGeneMutation) {
 			for (int index = 0; index < geneContainer.size(); index++) {
 				if (Math.random() < mutation.getRate()) {
-					((GeneMutation<Integer>) mutation).mutates(genes, index);
+					((IGeneMutation<Integer>) mutation).mutates(genes, index);
 				}
 			}
 		}
@@ -93,11 +93,11 @@ public class IndividualFactory {
 		return createIndividual(genes);
 	}
 
-	public Mutation<Integer> getMutation() {
+	public IMutation<Integer> getMutation() {
 		return mutation;
 	}
 
-	public void setMutation(Mutation<Integer> mutation) {
+	public void setMutation(IMutation<Integer> mutation) {
 		this.mutation = mutation;
 	}
 

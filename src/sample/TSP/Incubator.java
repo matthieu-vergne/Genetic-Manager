@@ -1,11 +1,11 @@
 package sample.TSP;
 
-import geneticmanager.individual.IndividualReproducer;
+import geneticmanager.individual.IIndividualReproducer;
 
 public class Incubator extends
-		geneticmanager.incubator.Incubator<Individual, Integer> {
+		geneticmanager.incubator.DefaultIncubator<Individual, Integer> {
 	private IndividualFactory factory;
-	private IndividualReproducer<Individual> reproducer = new IndividualReproducer<Individual>() {
+	private IIndividualReproducer<Individual> reproducer = new IIndividualReproducer<Individual>() {
 
 		@Override
 		public Individual reproduce(Individual i1, Individual i2) {
@@ -14,7 +14,7 @@ public class Incubator extends
 	};
 
 	@Override
-	public IndividualReproducer<Individual> getReproducer() {
+	public IIndividualReproducer<Individual> getReproducer() {
 		return reproducer;
 	}
 

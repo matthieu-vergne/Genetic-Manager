@@ -2,6 +2,6 @@ package geneticmanager.mutation;
 
 //TODO tests
 //TODO javadoc
-public interface Mutation<Gene> {
+public interface IMutation<Gene> {
 	public double getRate();
 }

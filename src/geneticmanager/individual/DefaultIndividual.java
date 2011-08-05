@@ -2,10 +2,10 @@ package geneticmanager.individual;
 
 //TODO tests
 //TODO javadoc
-abstract public class Individual<Gene> implements Comparable<Individual<Gene>> {
+abstract public class DefaultIndividual<Gene> implements IIndividual<Gene> {
 	private final Gene[] genes;
 
-	public Individual(Gene... genes) {
+	public DefaultIndividual(Gene... genes) {
 		this.genes = genes;
 	}
 
