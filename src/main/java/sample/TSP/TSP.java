@@ -13,7 +13,8 @@ public class TSP {
 
 	public static void main(String[] args) {
 		factory = new IndividualFactory();
-		for (Location location : CsvReader.parse("src/sample/TSP/defi250.csv")) {
+		String filepath = TSP.class.getClassLoader().getResource("sample/TSP/defi250.csv").getFile();
+		for (Location location : CsvReader.parse(filepath)) {
 			factory.addLocation(location);
 		}
 
