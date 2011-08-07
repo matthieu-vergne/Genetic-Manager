@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>geneticmanager</groupId>
+	<artifactId>genetic-manager</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Genetic Manager</name>
+	<inceptionYear>2011</inceptionYear>
+	<description>An attempt to make a generic manager for genetic algorithms.</description>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/Sazaju/Genetic-Manager/issues/</url>
+	</issueManagement>
+
+	<scm>
+		<connection>scm:git:git://github.com/Sazaju/Genetic-Manager.git</connection>
+		<developerConnection>scm:git:git@github.com:${github.username}/Genetic-Manager.git</developerConnection>
+		<url>https://github.com/Sazaju/Genetic-Manager</url>
+	</scm>
+	<developers>
+		<developer>
+			<name>Matthieu Vergne</name>
+			<email>matthieu_DOT_vergne@(nospam)gmail_DOT_com</email>
+			<url>https://github.com/Sazaju</url>
+		</developer>
+	</developers>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
